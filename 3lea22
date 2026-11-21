@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ System Breach</title>
+    <style>
+        @import url('https://googleapis.com');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #120824;
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            user-select: none;
+        }
+
+        #hack-screen {
+            position: fixed;
+            inset: 0;
+            background: #080000;
+            color: #ff2a2a;
+            font-family: 'Share Tech Mono', 'Cairo', monospace;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 100;
+            cursor: pointer;
+            animation: screenShake 0.15s infinite, glitchBg 0.25s infinite;
+        }
+
+        @keyframes screenShake {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-2px, 2px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-2px, -1px); }
+            100% { transform: translate(1px, 2px); }
+        }
+
+        @keyframes glitchBg {
+            0%, 100% { background-color: #080000; }
+            50% { background-color: #1f0000; }
+        }
+
+        .warning-header {
+            border: 2px solid #ff2a2a;
+            padding: 12px;
+            text-align: center;
+            background: rgba(255, 0, 0, 0.18);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
+        }
+
+        .warning-header h1 {
+            font-size: 1.35rem;
+            animation: blink 0.35s infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0.15; } }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 10px 0;
+            font-size: 0.8rem;
+            direction: ltr;
+        }
+
+        .action-card {
+            border: 1px solid #ff2a2a;
+            background: rgba(255, 0, 0, 0.1);
+            padding: 8px;
+            border-radius: 5px;
+            color: #ff8888;
+        }
+
+        .action-card span {
+            display: block;
+            color: #00ff41;
+            font-weight: bold;
+            margin-top: 3px;
+        }
+
+        #terminal-logs {
+            flex: 1;
+            margin: 8px 0;
+            overflow: hidden;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #00ff41;
+            direction: ltr;
+            text-align: left;
+            font-family: 'Share Tech Mono', monospace;
+            border-top: 1px dashed #ff2a2a;
+            border-bottom: 1px dashed #ff2a2a;
+            padding: 8px 0;
+        }
+
+        .tap-panic-box {
+            background: #ff0000;
+            color: #fff;
+            padding: 14px;
+            text-align: center;
+            font-weight: 900;
+            font-size: 1.15rem;
+            border-radius: 8px;
+            box-shadow: 0 0 25px #ff0000;
+            animation: blink 0.4s infinite;
+        }
+
+        #prank-screen {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #2b1055, #120824);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            z-index: 90;
+        }
+
+        #prank-text {
+            font-size: 2.1rem;
+            font-weight: 900;
+            color: #ff7eb3;
+            text-shadow: 0 0 20px rgba(255, 126, 179, 0.8);
+            min-height: 80px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.8rem;
+            background: #ff7eb3;
+            animation: blink 0.7s infinite;
+            vertical-align: middle;
+        }
+
+        #reveal-btn {
+            margin-top: 30px;
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-family: 'Cairo', sans-serif;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(45deg, #ff4b91, #ff8e53);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 25px rgba(255, 75, 145, 0.8);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease;
+            pointer-events: none;
+        }
+
+        #reveal-btn.show {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        #flower-screen {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #2a0e4a 0%, #110524 100%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 80;
+            padding: 20px 10px;
+        }
+
+        canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        #top-message-box {
+            position: relative;
+            z-index: 10;
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 182, 217, 0.4);
+            border-radius: 20px;
+            text-align: center;
+            max-width: 92%;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
+        }
+
+        #flower-typing {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffd1e8;
+            text-shadow: 0 0 12px rgba(255, 105, 180, 0.9);
+        }
+
+        #bottom-english-title {
+            position: relative;
+            z-index: 10;
+            margin-bottom: 15px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.4rem;
+            color: #ffe066;
+            text-shadow: 0 0 15px #ff9900, 0 0 30px #ff4b91;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1.5s ease;
+            direction: ltr;
+        }
+
+        #bottom-english-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #besties-dance {
+            position: fixed;
+            bottom: 85px;
+            right: 25px;
+            z-index: 20;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: spinFunny 2.8s linear infinite, bounceFunny 0.6s ease-in-out infinite alternate;
+        }
+
+        @keyframes spinFunny {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.12); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes bounceFunny {
+            from { bottom: 80px; }
+            to { bottom: 110px; }
+        }
+
+        .dance-caption {
+            background: #ff4b91;
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 2px 10px;
+            border-radius: 10px;
+            margin-top: -5px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(255, 75, 145, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="hack-screen">
+        <div class="warning-header">
+            <h1>🚨 WARNING: SYSTEM HACKED 🚨</h1>
+            <p>تم اختراق الجوال بالكامل - جاري سحب الصور والمحادثات</p>
+        </div>
+
+        <div class="action-grid">
+            <div class="action-card">CAMERA ACCESS: <span>ACTIVE 🔴</span></div>
+            <div class="action-card">GALLERY UPLOAD: <span>94% ⬆️</span></div>
+            <div class="action-card">WHATSAPP DB: <span>HACKED ✔</span></div>
+            <div class="action-card">SYSTEM LOCK: <span>ENABLED ⚡</span></div>
+        </div>
+
+        <div id="terminal-logs">
+            <div>[+] Connecting to remote host 185.220.101.4...</div>
+            <div>[!] Bypassing Android/iOS lock... SUCCESS</div>
+            <div>[!] Capturing front camera snapshot... DONE</div>
+            <div>[!] Uploading DCIM/Camera/IMG_2026.jpg...</div>
+            <div>[!] Reading WhatsApp & Instagram messages...</div>
+            <div>[!] Injecting Trojan.Locker.v9... 100%</div>
+        </div>
+
+        <div class="tap-panic-box">
+            ⚠️ اضغطي على الشاشة فوراً لإيقاف الاختراق واستعادة الجهاز ⚠️
+        </div>
+    </div>
+
+    <div id="prank-screen">
+        <div>
+            <span id="prank-text"></span><span class="cursor"></span>
+        </div>
+        <button id="reveal-btn">اضغطي هنا وشوفي هديتك 🎉✨</button>
+    </div>
+
+    <div id="flower-screen">
+        <div id="top-message-box">
+            <span id="flower-typing"></span><span class="cursor"></span>
+        </div>
+
+        <canvas id="flowerCanvas"></canvas>
+
+        <div id="besties-dance">
+            <svg width="160" height="115" viewBox="0 0 200 140" xmlns="http://w3.org">
+                <g transform="translate(15, 10)">
+                    <path d="M22,28 Q12,55 18,75 L52,75 Q58,55 48,28 Z" fill="#2c1654"/>
+                    <circle cx="35" cy="35" r="14" fill="#ffe0bd"/>
+                    <circle cx="30" cy="34" r="2" fill="#2c1654"/>
+                    <circle cx="40" cy="34" r="2" fill="#2c1654"/>
+                    <path d="M31,41 Q35,45 39,41" fill="none" stroke="#d6336c" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M22,50 L48,50 L55,88 L15,88 Z" fill="#ff4b91"/>
+                    <text x="30" y="72" fill="#ffe066" font-size="13">★</text>
