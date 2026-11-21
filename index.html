@@ -29,6 +29,7 @@
             flex-direction: column;
             justify-content: space-between;
             z-index: 100;
+            cursor: pointer;
             animation: screenShake 0.15s infinite, glitchBg 0.25s infinite;
         }
 
@@ -99,43 +100,16 @@
             padding: 8px 0;
         }
 
-        .fake-popup {
-            position: fixed;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #1a0000;
-            border: 2px solid #ff0000;
-            padding: 15px 25px;
+        .tap-panic-box {
+            background: #ff0000;
             color: #fff;
-            font-weight: bold;
+            padding: 12px;
             text-align: center;
-            box-shadow: 0 0 40px #ff0000;
-            z-index: 150;
-            display: none;
-            animation: blink 0.3s infinite;
-        }
-
-        .progress-container {
-            width: 100%;
-            background: #220000;
-            border: 1px solid #ff2a2a;
-            height: 22px;
-        }
-
-        #progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #ff0000, #ff6600);
-            transition: width 0.9s linear;
-        }
-
-        .timer-text {
-            text-align: center;
-            margin-top: 6px;
+            font-weight: 900;
             font-size: 1.15rem;
-            font-weight: bold;
-            color: #ff4444;
+            border-radius: 8px;
+            box-shadow: 0 0 25px #ff0000;
+            animation: blink 0.4s infinite;
         }
 
         #prank-screen {
@@ -282,44 +256,34 @@
             font-weight: bold;
             box-shadow: 0 0 10px rgba(255, 75, 145, 0.8);
         }
-
-        #sound-hint {
-            position: fixed;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.6);
-            z-index: 200;
-        }
     </style>
 </head>
-<body onclick="initAudio()">
+<body>
 
-    <div id="hack-screen">
+    <div id="hack-screen" onclick="switchToPrankScreen()">
         <div class="warning-header">
             <h1>🚨 WARNING: SYSTEM HACKED 🚨</h1>
             <p>تم اختراق الجوال بالكامل - جاري سحب الصور والمحادثات</p>
         </div>
 
         <div class="action-grid">
-            <div class="action-card">CAMERA ACCESS: <span id="cam-status">ACTIVE 🔴</span></div>
-            <div class="action-card">GALLERY UPLOAD: <span id="gal-status">0%</span></div>
-            <div class="action-card">WHATSAPP DB: <span id="wa-status">EXTRACTING...</span></div>
-            <div class="action-card">BATTERY DRAIN: <span>CRITICAL ⚡</span></div>
+            <div class="action-card">CAMERA ACCESS: <span>ACTIVE 🔴</span></div>
+            <div class="action-card">GALLERY UPLOAD: <span>94% ⬆️</span></div>
+            <div class="action-card">WHATSAPP DB: <span>HACKED ✔</span></div>
+            <div class="action-card">SYSTEM LOCK: <span>ENABLED ⚡</span></div>
         </div>
 
-        <div id="terminal-logs"></div>
-
-        <div class="fake-popup" id="fake-popup">
-            ⛔ لا يمكنك الخروج! تم تعطيل أزرار التحكم ⛔
+        <div id="terminal-logs">
+            <div>[+] Connecting to remote host 185.220.101.4...</div>
+            <div>[!] Bypassing Android/iOS lock... SUCCESS</div>
+            <div>[!] Capturing front camera snapshot... DONE</div>
+            <div>[!] Uploading DCIM/Camera/IMG_2026.jpg...</div>
+            <div>[!] Reading WhatsApp & Instagram messages...</div>
+            <div>[!] Injecting Trojan.Locker.v9... 100%</div>
         </div>
 
-        <div>
-            <div class="progress-container">
-                <div id="progress-bar"></div>
-            </div>
-            <div class="timer-text">حذف جميع الملفات نهائياً خلال: <span id="countdown">15</span> ثانية</div>
+        <div class="tap-panic-box">
+            ⚠️ اضغطي على الشاشة فوراً لإيقاف الاختراق واستعادة الجهاز ⚠️
         </div>
     </div>
 
@@ -333,3 +297,17 @@
     <div id="flower-screen">
         <div id="top-message-box">
             <span id="flower-typing"></span><span class="cursor"></span>
+        </div>
+
+        <canvas id="flowerCanvas"></canvas>
+
+        <div id="besties-dance">
+            <svg width="160" height="115" viewBox="0 0 200 140" xmlns="http://w3.org">
+                <g transform="translate(15, 10)">
+                    <path d="M22,28 Q12,55 18,75 L52,75 Q58,55 48,28 Z" fill="#2c1654"/>
+                    <circle cx="35" cy="35" r="14" fill="#ffe0bd"/>
+                    <circle cx="30" cy="34" r="2" fill="#2c1654"/>
+                    <circle cx="40" cy="34" r="2" fill="#2c1654"/>
+                    <path d="M31,41 Q35,45 39,41" fill="none" stroke="#d6336c" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M22,50 L48,50 L55,88 L15,88 Z" fill="#ff4b91"/>
+                    <text x="30" y="72" fill="#ffe066" font-size="13">★</text>
