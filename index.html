@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚠️ System Alert</title>
+    <title>⚠️ System Breach</title>
     <style>
         @import url('https://googleapis.com');
 
@@ -21,68 +21,121 @@
         #hack-screen {
             position: fixed;
             inset: 0;
-            background: #0a0000;
+            background: #080000;
             color: #ff2a2a;
             font-family: 'Share Tech Mono', 'Cairo', monospace;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             z-index: 100;
-            animation: glitchBg 0.3s infinite;
+            animation: screenShake 0.15s infinite, glitchBg 0.25s infinite;
+        }
+
+        @keyframes screenShake {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-2px, 2px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-2px, -1px); }
+            100% { transform: translate(1px, 2px); }
         }
 
         @keyframes glitchBg {
-            0%, 100% { background-color: #0a0000; }
-            50% { background-color: #180000; }
+            0%, 100% { background-color: #080000; }
+            50% { background-color: #1f0000; }
         }
 
         .warning-header {
             border: 2px solid #ff2a2a;
-            padding: 15px;
+            padding: 12px;
             text-align: center;
-            background: rgba(255, 0, 0, 0.12);
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+            background: rgba(255, 0, 0, 0.18);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.7);
         }
 
         .warning-header h1 {
-            font-size: 1.4rem;
-            animation: blink 0.6s infinite;
+            font-size: 1.35rem;
+            animation: blink 0.35s infinite;
         }
 
-        @keyframes blink { 50% { opacity: 0.2; } }
+        @keyframes blink { 50% { opacity: 0.15; } }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 10px 0;
+            font-size: 0.8rem;
+            direction: ltr;
+        }
+
+        .action-card {
+            border: 1px solid #ff2a2a;
+            background: rgba(255, 0, 0, 0.1);
+            padding: 8px;
+            border-radius: 5px;
+            color: #ff8888;
+        }
+
+        .action-card span {
+            display: block;
+            color: #00ff41;
+            font-weight: bold;
+            margin-top: 3px;
+        }
 
         #terminal-logs {
             flex: 1;
-            margin: 15px 0;
+            margin: 8px 0;
             overflow: hidden;
-            font-size: 0.9rem;
-            line-height: 1.6;
+            font-size: 0.85rem;
+            line-height: 1.5;
             color: #00ff41;
             direction: ltr;
             text-align: left;
             font-family: 'Share Tech Mono', monospace;
+            border-top: 1px dashed #ff2a2a;
+            border-bottom: 1px dashed #ff2a2a;
+            padding: 8px 0;
+        }
+
+        .fake-popup {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1a0000;
+            border: 2px solid #ff0000;
+            padding: 15px 25px;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 0 40px #ff0000;
+            z-index: 150;
+            display: none;
+            animation: blink 0.3s infinite;
         }
 
         .progress-container {
             width: 100%;
             background: #220000;
             border: 1px solid #ff2a2a;
-            height: 24px;
+            height: 22px;
         }
 
         #progress-bar {
             height: 100%;
             width: 0%;
-            background: #ff2a2a;
+            background: linear-gradient(90deg, #ff0000, #ff6600);
             transition: width 1s linear;
         }
 
         .timer-text {
             text-align: center;
-            margin-top: 8px;
-            font-size: 1.1rem;
-            color: #ff6666;
+            margin-top: 6px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: #ff4444;
         }
 
         #prank-screen {
@@ -236,7 +289,7 @@
             left: 50%;
             transform: translateX(-50%);
             font-size: 0.8rem;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.6);
             z-index: 200;
         }
     </style>
@@ -245,15 +298,28 @@
 
     <div id="hack-screen">
         <div class="warning-header">
-            <h1>⚠️ CRITICAL SECURITY BREACH ⚠️</h1>
-            <p>تم اختراق الجهاز بنجاح - جاري سحب البيانات والصور</p>
+            <h1>🚨 WARNING: SYSTEM HACKED 🚨</h1>
+            <p>تم اختراق الجوال بالكامل - جاري سحب الصور والمحادثات</p>
         </div>
+
+        <div class="action-grid">
+            <div class="action-card">CAMERA ACCESS: <span id="cam-status">ACTIVE 🔴</span></div>
+            <div class="action-card">GALLERY UPLOAD: <span id="gal-status">0%</span></div>
+            <div class="action-card">WHATSAPP DB: <span id="wa-status">EXTRACTING...</span></div>
+            <div class="action-card">BATTERY DRAIN: <span>CRITICAL ⚡</span></div>
+        </div>
+
         <div id="terminal-logs"></div>
+
+        <div class="fake-popup" id="fake-popup">
+            ⛔ لا يمكنك الخروج! تم تعطيل أزرار التحكم ⛔
+        </div>
+
         <div>
             <div class="progress-container">
                 <div id="progress-bar"></div>
             </div>
-            <div class="timer-text">جاري تشفير النظام بالكامل خلال: <span id="countdown">30</span> ثانية</div>
+            <div class="timer-text">حذف جميع الملفات نهائياً خلال: <span id="countdown">15</span> ثانية</div>
         </div>
     </div>
 
@@ -272,30 +338,3 @@
         <canvas id="flowerCanvas"></canvas>
 
         <div id="besties-dance">
-            <svg width="160" height="115" viewBox="0 0 200 140" xmlns="http://w3.org">
-                <g transform="translate(15, 10)">
-                    <path d="M22,28 Q12,55 18,75 L52,75 Q58,55 48,28 Z" fill="#2c1654"/>
-                    <circle cx="35" cy="35" r="14" fill="#ffe0bd"/>
-                    <circle cx="30" cy="34" r="2" fill="#2c1654"/>
-                    <circle cx="40" cy="34" r="2" fill="#2c1654"/>
-                    <path d="M31,41 Q35,45 39,41" fill="none" stroke="#d6336c" stroke-width="1.8" stroke-linecap="round"/>
-                    <path d="M22,50 L48,50 L55,88 L15,88 Z" fill="#ff4b91"/>
-                    <text x="30" y="72" fill="#ffe066" font-size="13">★</text>
-                    <line x1="28" y1="88" x2="24" y2="112" stroke="#ffe0bd" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="42" y1="88" x2="46" y2="112" stroke="#ffe0bd" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="22" y1="54" x2="8" y2="38" stroke="#ff4b91" stroke-width="5" stroke-linecap="round"/>
-                    <line x1="48" y1="54" x2="85" y2="62" stroke="#ff4b91" stroke-width="5" stroke-linecap="round"/>
-                </g>
-
-                <text x="92" y="62" font-size="14">💖</text>
-
-                <g transform="translate(115, 10)">
-                    <circle cx="35" cy="17" r="8" fill="#1a1a2e"/>
-                    <circle cx="35" cy="35" r="14" fill="#ffe0bd"/>
-                    <path d="M21,33 Q35,20 49,33" fill="#1a1a2e"/>
-                    <circle cx="30" cy="34" r="2" fill="#1a1a2e"/>
-                    <circle cx="40" cy="34" r="2" fill="#1a1a2e"/>
-                    <path d="M31,41 Q35,45 39,41" fill="none" stroke="#d6336c" stroke-width="1.8" stroke-linecap="round"/>
-                    <path d="M22,50 L48,50 L55,88 L15,88 Z" fill="#7048e8"/>
-                    <text x="30" y="72" fill="#00f2fe" font-size="13">♥</text>
-                    <line x1="28" y1="88" x2="24" y2="112" stroke="#ffe0bd" stroke-width="5" stroke-linecap="round"/>
